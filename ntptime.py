@@ -10,6 +10,8 @@ except:
 # (date(2000, 1, 1) - date(1900, 1, 1)).days * 24*60*60
 NTP_DELTA = 3155673600
 
+#NTP server was enabled on a router at 192.168.11.1.
+#Public server could be used such as pool.ntp.org.
 host = "192.168.11.1"
 
 def ntptime():
@@ -22,7 +24,8 @@ def ntptime():
     msg = s.recv(48)
     s.close()
     val = struct.unpack("!I", msg[40:44])[0]
-    return val - NTP_DELTA + 28800
+    return val - NTP_DELTA + 28800 # CST,don't add 28800 for UTC
+
 def localtime():
     tm=ntptime()
     days=int( tm / 86400 )
